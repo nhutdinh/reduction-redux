@@ -1,21 +1,32 @@
 import React from 'react';
+import {connect} from 'react-redux'
 import { MdSearch } from 'react-icons/md';
-import { Form, Input } from 'reactstrap';
+import { Form, Input, Button } from 'reactstrap';
+import {search} from 'actions/SearchInputAction'
 
-const SearchInput = () => {
+const mapStateToProps = (state) => {
+  return {
+    searchString: state.searchString                                        
+  }
+}
+
+const mapDispatchToProps = { search1: search }
+
+
+const SearchInput = ({search1, searchString}) => {
+  console.log(search1 )
   return (
-    <Form inline className="cr-search-form" onSubmit={e => e.preventDefault()}>
+    <div inline className="cr-search-form">
       <MdSearch
         size="20"
         className="cr-search-form__icon-search text-secondary"
       />
-      <Input
+      <Button onClick={search1}
         type="search"
         className="cr-search-form__input"
         placeholder="Search..."
       />
-    </Form>
+    </div>
   );
 };
-
-export default SearchInput;
+export default connect(mapStateToProps, mapDispatchToProps  )(SearchInput)

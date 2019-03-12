@@ -19,6 +19,7 @@ import ProgressPage from 'pages/ProgressPage';
 import TablePage from 'pages/TablePage';
 import TypographyPage from 'pages/TypographyPage';
 import WidgetPage from 'pages/WidgetPage';
+import SearchPage from 'pages/SearchPage';
 import React from 'react';
 import componentQueries from 'react-component-queries';
 import { BrowserRouter, Redirect, Switch } from 'react-router-dom';
@@ -61,6 +62,12 @@ class App extends React.Component {
               path="/"
               layout={MainLayout}
               component={DashboardPage}
+            />
+            <LayoutRoute
+              exact
+              path="/search"
+              layout={MainLayout}
+              component={SearchPage}
             />
             <LayoutRoute
               exact
