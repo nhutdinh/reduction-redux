@@ -1,33 +1,20 @@
 import {
-    QUOTE_LOADED_OK
-} from '../actions/SearchInputAction'
+    QUOTE_HISTORY_LOADING,
+    QUOTE_HISTORY_LOADED_OK,
+    QUOTE_HISTORY_LOADED_FAIL,
+
+} from '../actions/StockPageAction'
 
 
-
-export const isFetching = (state=false, action) => {
+export const quotesHistory = (state={isLoading: false, records: [], period: ""}, action) => {
     switch (action.type) {
-        case QUOTE_LOADED_OK:
-            return true
-        case LOADED_OK:
-            return false
-        case LOADED_FAIL:
-            return false
-        case LOADING:
-            return true
+        case QUOTE_HISTORY_LOADED_OK:
+            return {...state, isLoading: false, records: action.data}
+        case QUOTE_HISTORY_LOADED_FAIL:
+            return {...state, isLoading: false}
+        case QUOTE_HISTORY_LOADING:
+            return {...state, isLoading: true, period: action.period}
         default:
             return state
     }
-}
-export const searchString = (state="", action) => {
-    return action.searchString ? action.searchString : "";
-}
-export const searchResult = (state=[], action) =>{
-    switch (action.type) {
-        case SUBMIT:
-            return []
-        case LOADED_OK:
-            return [...action.result]
-        default:
-            return state
-    }   
 }

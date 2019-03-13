@@ -1,20 +1,19 @@
 import fetch from 'cross-fetch'
 
-export const SUBMIT = 'SUBMIT'
-export const LOADING = 'LOADING'
-export const LOADED_OK = 'LOADED_OK'
-export const LOADED_FAIL = 'LOADED_FAIL'
-export const QUOTE_LOADED_OK = 'QUOTE_LOADED_OK'
+export const SEARCH_LOADING = 'SEARCH_LOADING'
+export const SEARCH_LOADED_OK = 'SEARCH_LOADED_OK'
+export const SEARCH_LOADED_FAIL = 'SEARCH_LOADED_FAIL'
+export const QUOTE_DETAIL_LOADED_OK = 'QUOTE_DETAIL_LOADED_OK'
 
-function requestPosts(searchString) {
+function requestData(searchString) {
     return {
-      type: LOADING,
+      type: SEARCH_LOADING,
       searchString
     }
 }
-function receivePosts(searchString, json) {
+function receiveData(searchString, json) {
     return {
-      type: LOADED_OK,
+      type: SEARCH_LOADED_OK,
       searchString,
       quotes: json.map(it=>{
           return {
@@ -27,21 +26,22 @@ function receivePosts(searchString, json) {
     }
 }
 function receiveQuoteDetailData(stockquote, quote) {
+    console.log(quote);
     return {
-        type: QUOTE_LOADED_OK,
+        type: QUOTE_DETAIL_LOADED_OK,
         quote: quote
     }
 }
 function error(searchString, json) {
     return {
-      type: LOADED_FAIL,
+      type: SEARCH_LOADED_FAIL,
       searchString,
       result: json
     }
 }
 export const search = searchString => {
     return dispatch => {
-        dispatch(requestPosts(searchString));
+        dispatch(requestData(searchString));
         return fetch(`https://api.iextrading.com/1.0/stock/${searchString}/peers`)
             .then(response => {
                 if (response.status >= 400) {
@@ -50,8 +50,8 @@ export const search = searchString => {
                 return response.json();
             })
             .then(json => {
-                dispatch(receivePosts(searchString, json));
-                json.every(stockquote=>{
+                dispatch(receiveData(searchString, json));
+                json.forEach(stockquote=>{
                     fetch(`https://api.iextrading.com/1.0/stock/${stockquote}/company`)
                     .then(res=>{
                         if (res.status >= 400) {
@@ -79,23 +79,7 @@ export function searchIfNeeded(searchString) {
       }
     }
   }
-export const loadMore = searchString => (dispatch, getState) => {
-    search(searchString);
-}
 
-function getCardInfo(stockquote){
-    
-}
-
-const searchDone = (searchString, result) => {
-    console.log('RECEIVED');
-    return {
-        type: LOADED_OK,
-        searchString,
-        result
-    }
-}
-
-const shouldFetch = (state, searchString) => (
-    !state.isFetching
+const shouldFetch = (state) => (
+    !state.search.isFetching
 )

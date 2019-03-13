@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux'
-import {isFetching, searchString, quotes} from './SearchInputReducer'
+import {search} from './SearchInputReducer'
+import {quotesHistory} from './QuotesReducer'
 const rootReducer = combineReducers({
-    searchString,
-    isFetching,
-    quotes
+    search,
+    quotesHistory
 
 })
 export default rootReducer

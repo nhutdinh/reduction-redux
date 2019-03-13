@@ -1,8 +1,10 @@
 import React from 'react';
 import {connect} from 'react-redux'
 import { MdSearch } from 'react-icons/md';
-import { Form, Input, Button } from 'reactstrap';
+import { Form, Input } from 'reactstrap';
 import {searchIfNeeded} from 'actions/SearchInputAction'
+import { withRouter } from 'react-router-dom'
+
 
 const mapStateToProps = (state) => {
   return {
@@ -10,13 +12,11 @@ const mapStateToProps = (state) => {
   }
 }
 
-
 const mapDispatchToProps = { searchIfNeeded }
 
 
-const SearchInput = ({searchIfNeeded}) => {
+const SearchInput = withRouter(({searchIfNeeded, history}) => {
   let input;
-  console.log('+++++++++++++++++++++++++++++++');
   return (
     <Form inline className="cr-search-form" 
       onSubmit={e => {
@@ -25,6 +25,7 @@ const SearchInput = ({searchIfNeeded}) => {
         if (!searchTerm) {
           return
         }
+        history.push('/search')
         searchIfNeeded(searchTerm);
       }}
       >
@@ -40,5 +41,5 @@ const SearchInput = ({searchIfNeeded}) => {
       />
     </Form>
   );
-};
+});
 export default connect(mapStateToProps, mapDispatchToProps)(SearchInput)

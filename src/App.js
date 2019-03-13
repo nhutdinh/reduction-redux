@@ -20,6 +20,7 @@ import TablePage from 'pages/TablePage';
 import TypographyPage from 'pages/TypographyPage';
 import WidgetPage from 'pages/WidgetPage';
 import SearchPage from 'pages/SearchPage';
+import StockPage from 'pages/StockPage';
 import React from 'react';
 import componentQueries from 'react-component-queries';
 import { BrowserRouter, Redirect, Switch } from 'react-router-dom';
@@ -80,6 +81,12 @@ class App extends React.Component {
               path="/cards"
               layout={MainLayout}
               component={CardPage}
+            />
+            <LayoutRoute
+              exact
+              path="/stock/:stockquote"
+              layout={MainLayout}
+              component={StockPage}
             />
             <LayoutRoute
               exact
