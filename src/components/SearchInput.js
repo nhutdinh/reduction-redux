@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux'
 import { MdSearch } from 'react-icons/md';
 import { Form, Input, Button } from 'reactstrap';
-import {search} from 'actions/SearchInputAction'
+import {searchIfNeeded} from 'actions/SearchInputAction'
 
 const mapStateToProps = (state) => {
   return {
@@ -10,23 +10,35 @@ const mapStateToProps = (state) => {
   }
 }
 
-const mapDispatchToProps = { search1: search }
+
+const mapDispatchToProps = { searchIfNeeded }
 
 
-const SearchInput = ({search1, searchString}) => {
-  console.log(search1 )
+const SearchInput = ({searchIfNeeded}) => {
+  let input;
+  console.log('+++++++++++++++++++++++++++++++');
   return (
-    <div inline className="cr-search-form">
+    <Form inline className="cr-search-form" 
+      onSubmit={e => {
+        e.preventDefault();
+        let searchTerm = input.value.trim();
+        if (!searchTerm) {
+          return
+        }
+        searchIfNeeded(searchTerm);
+      }}
+      >
       <MdSearch
         size="20"
         className="cr-search-form__icon-search text-secondary"
       />
-      <Button onClick={search1}
+      <Input
+        innerRef ={node => (input = node)}
         type="search"
         className="cr-search-form__input"
         placeholder="Search..."
       />
-    </div>
+    </Form>
   );
 };
-export default connect(mapStateToProps, mapDispatchToProps  )(SearchInput)
+export default connect(mapStateToProps, mapDispatchToProps)(SearchInput)

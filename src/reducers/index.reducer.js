@@ -1,8 +1,9 @@
 import { combineReducers } from 'redux'
-import {isFetching} from './SearchInputReducer'
+import {isFetching, searchString, quotes} from './SearchInputReducer'
 const rootReducer = combineReducers({
-
-    isFetching
+    searchString,
+    isFetching,
+    quotes
 
 })
 export default rootReducer
